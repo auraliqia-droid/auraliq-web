@@ -11,14 +11,16 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "AuraLiqIA | Innovación en IA para clínicas",
-  description: "Automatización de atención en redes sociales con IA. Agenda tu demo.",
+  title: "AuraLiqIA | Automatización con IA para PyMEs",
+  description:
+    "Mejora el desempeño de tu PyME con automatización e IA. Optimiza ventas, soporte y operaciones con resultados medibles.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "AuraLiqIA | Innovación en IA para clínicas",
-    description: "Automatización de atención en redes sociales con IA. Agenda tu demo.",
+    title: "AuraLiqIA | Automatización con IA para PyMEs",
+    description:
+      "Mejora el desempeño de tu PyME con automatización e IA. Optimiza ventas, soporte y operaciones con resultados medibles.",
     type: "website",
     locale: "es_MX",
     url: "/",
@@ -26,8 +28,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AuraLiqIA | Innovación en IA para clínicas",
-    description: "Automatización de atención en redes sociales con IA. Agenda tu demo.",
+    title: "AuraLiqIA | Automatización con IA para PyMEs",
+    description:
+      "Mejora el desempeño de tu PyME con automatización e IA. Optimiza ventas, soporte y operaciones con resultados medibles.",
   },
 };
 
