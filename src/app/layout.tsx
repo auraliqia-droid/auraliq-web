@@ -1,24 +1,24 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import type { CSSProperties } from "react";
 import "./globals.css";
 
-const manrope = Manrope({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+const fallbackFontStack =
+  "system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "AuraLiqIA | Innovación en IA para clínicas",
-  description: "Automatización de atención en redes sociales con IA. Agenda tu demo.",
+  title: "AuraLiqIA | Automatización con IA para PyMEs",
+  description:
+    "Mejora el desempeño de tu PyME con automatización e IA. Optimiza ventas, soporte y operaciones con resultados medibles.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "AuraLiqIA | Innovación en IA para clínicas",
-    description: "Automatización de atención en redes sociales con IA. Agenda tu demo.",
+    title: "AuraLiqIA | Automatización con IA para PyMEs",
+    description:
+      "Mejora el desempeño de tu PyME con automatización e IA. Optimiza ventas, soporte y operaciones con resultados medibles.",
     type: "website",
     locale: "es_MX",
     url: "/",
@@ -26,8 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AuraLiqIA | Innovación en IA para clínicas",
-    description: "Automatización de atención en redes sociales con IA. Agenda tu demo.",
+    title: "AuraLiqIA | Automatización con IA para PyMEs",
+    description:
+      "Mejora el desempeño de tu PyME con automatización e IA. Optimiza ventas, soporte y operaciones con resultados medibles.",
   },
 };
 
@@ -44,7 +45,10 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
         />
       </head>
-      <body className={`${manrope.variable} antialiased font-sans bg-background text-foreground`}>
+      <body
+        className="antialiased font-sans bg-background text-foreground"
+        style={{ "--font-sans": fallbackFontStack } as CSSProperties}
+      >
         <main>{children}</main>
       </body>
     </html>
