@@ -298,7 +298,7 @@ function DemoChat({
 }
 
 export function LandingPage() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const searchParams = useSearchParams();
   const [activeSection, setActiveSection] = useState("inicio");
   const [isDemoOpen, setIsDemoOpen] = useState(false);
