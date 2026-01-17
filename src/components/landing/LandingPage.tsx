@@ -7,25 +7,11 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   useEffect,
   useMemo,
-  useRef,
   useState,
   type ChangeEvent,
   type FormEvent,
 } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { contactSchema, type ContactPayload } from "@/lib/contactSchema";
-
-type ChatMessage = {
-  id: string;
-  role: "user" | "bot";
-  text: string;
-};
 
 declare global {
   interface Window {
@@ -36,11 +22,7 @@ declare global {
 
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "";
 const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "";
-const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL ?? "";
 const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
-const whatsappDefaultMessage =
-  process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE ??
-  "Hola, me gustaría conocer más sobre automatización con IA para mi PyME.";
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const heroImage =
@@ -60,29 +42,10 @@ const services = [
       "Confirma citas, envía recordatorios y responde rápido a cada solicitud sin saturar a tu equipo.",
   },
   {
-    icon: "lan",
-    title: "Automatización de leads y CRM",
-    description:
-      "Captura prospectos, califícalos y asigna seguimientos automáticos para acelerar el cierre de ventas.",
-  },
-  {
-    icon: "payments",
-    title: "Cobranza y seguimiento",
-    description:
-      "Envía recordatorios de pago y reduce cuentas vencidas con mensajes personalizados y oportunos.",
-  },
-  {
-    icon: "insights",
-    title: "Reportes y BI ejecutivo",
-    description:
-      "Visualiza métricas de ventas y operación para tomar decisiones rápidas basadas en datos reales.",
-  },
-  {
     icon: "hub",
-    title: "Integraciones omnicanal",
+    title: "Integraciones multicanal",
     description:
       "Conecta WhatsApp, webchat, email y herramientas internas para una atención fluida y sin fricciones.",
-    wide: true,
   },
 ];
 
@@ -135,173 +98,11 @@ const pricingPlans = [
   },
 ];
 
-const demoPrompts = [
-  "Quiero automatizar ventas",
-  "¿Cómo funcionan los recordatorios?",
-  "¿Cuánto cuesta el plan avanzado?",
-  "Necesito soporte para clientes",
-];
-
-const getDemoResponse = (input: string) => {
-  const normalized = input.toLowerCase();
-  if (normalized.includes("precio") || normalized.includes("cuesta")) {
-    return "El plan básico comienza en $2,500 MXN al mes y el avanzado en $6,000 MXN. ¿Quieres que te recomiende el ideal para tu PyME?";
-  }
-  if (normalized.includes("recordatorio") || normalized.includes("cita")) {
-    return "Podemos enviar recordatorios automáticos por WhatsApp o email, confirmar asistencia y reprogramar si es necesario.";
-  }
-  if (normalized.includes("ventas") || normalized.includes("lead")) {
-    return "Automatizamos la captación de leads y entregamos prospectos listos para tu equipo, con seguimiento inmediato.";
-  }
-  if (normalized.includes("soporte") || normalized.includes("clientes")) {
-    return "Nuestro bot responde FAQs y escala casos críticos a tu equipo para que no pierdas clientes.";
-  }
-  return "Entendido. Te propongo una demo personalizada para tu operación. ¿Qué proceso te gustaría automatizar primero?";
-};
-
-function DemoChat({
-  compact = false,
-  reduceMotion,
-  onEvent,
-}: {
-  compact?: boolean;
-  reduceMotion: boolean;
-  onEvent: (eventName: string) => void;
-}) {
-  const messageIdRef = useRef(0);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "welcome",
-      role: "bot",
-      text: "Hola, soy Aura. Puedo ayudarte a automatizar atención, ventas y recordatorios. ¿Qué necesitas hoy?",
-    },
-  ]);
-  const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const listRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!listRef.current) return;
-    listRef.current.scrollTo({
-      top: listRef.current.scrollHeight,
-      behavior: reduceMotion ? "auto" : "smooth",
-    });
-  }, [messages, isTyping, reduceMotion]);
-
-  const handleSend = (value: string) => {
-    const trimmed = value.trim();
-    if (!trimmed) return;
-    messageIdRef.current += 1;
-    const userMessage: ChatMessage = {
-      id: `${messageIdRef.current}-user`,
-      role: "user",
-      text: trimmed,
-    };
-    setMessages((prev) => [...prev, userMessage]);
-    setInput("");
-    onEvent("demo_message_sent");
-    setIsTyping(true);
-    const delay = reduceMotion ? 200 : 600;
-    window.setTimeout(() => {
-      messageIdRef.current += 1;
-      const botMessage: ChatMessage = {
-        id: `${messageIdRef.current}-bot`,
-        role: "bot",
-        text: getDemoResponse(trimmed),
-      };
-      setMessages((prev) => [...prev, botMessage]);
-      setIsTyping(false);
-    }, delay);
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleSend(input);
-  };
-
-  return (
-    <div className={`rounded-2xl border border-border bg-card shadow-lg ${compact ? "p-4" : "p-6"}`}>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-sm font-semibold text-primary uppercase tracking-wider">Demo interactiva</p>
-          <h3 className="text-lg font-bold">Simulador de conversación</h3>
-        </div>
-        <button
-          type="button"
-          onClick={() => {
-            setMessages([
-              {
-                id: "welcome",
-                role: "bot",
-                text: "Hola, soy Aura. Puedo ayudarte a automatizar atención, ventas y recordatorios. ¿Qué necesitas hoy?",
-              },
-            ]);
-            onEvent("demo_reset");
-          }}
-          className="text-xs font-semibold text-primary hover:text-primary/80 transition-colors"
-        >
-          Reiniciar
-        </button>
-      </div>
-      <div
-        ref={listRef}
-        className={`space-y-3 overflow-y-auto rounded-xl bg-muted/60 p-4 ${compact ? "h-48" : "h-64"}`}
-        aria-live="polite"
-      >
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm leading-relaxed ${
-              message.role === "user"
-                ? "ml-auto bg-primary text-white"
-                : "bg-white text-slate-700"
-            }`}
-          >
-            {message.text}
-          </div>
-        ))}
-        {isTyping ? (
-          <div className="max-w-[60%] rounded-2xl px-4 py-2 text-sm bg-white text-slate-500">
-            Aura está escribiendo...
-          </div>
-        ) : null}
-      </div>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {demoPrompts.map((prompt) => (
-          <button
-            key={prompt}
-            type="button"
-            onClick={() => handleSend(prompt)}
-            className="rounded-full border border-border px-3 py-1 text-xs font-semibold text-foreground hover:border-primary hover:text-primary transition-colors"
-          >
-            {prompt}
-          </button>
-        ))}
-      </div>
-      <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
-        <input
-          className="flex-1 h-10 px-4 rounded-full border border-border bg-white dark:bg-background text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-          placeholder="Escribe tu mensaje..."
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          aria-label="Mensaje para el demo"
-        />
-        <button
-          type="submit"
-          className="h-10 px-5 rounded-full bg-primary text-white text-sm font-bold hover:shadow-lg hover:shadow-primary/30 transition-all"
-        >
-          Enviar
-        </button>
-      </form>
-    </div>
-  );
-}
 
 export function LandingPage() {
   const reduceMotion = useReducedMotion() ?? false;
   const searchParams = useSearchParams();
   const [activeSection, setActiveSection] = useState("inicio");
-  const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [formState, setFormState] = useState({
     fullName: "",
@@ -313,17 +114,9 @@ export function LandingPage() {
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formError, setFormError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [demoLead, setDemoLead] = useState({
-    fullName: "",
-    email: "",
-    company: "",
-  });
-  const [demoStatus, setDemoStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [demoError, setDemoError] = useState("");
-  const [demoFieldErrors, setDemoFieldErrors] = useState<Record<string, string>>({});
 
   const sectionIds = useMemo(
-    () => ["inicio", "servicios", "demo", "mision", "integraciones", "precios", "equipo", "contacto"],
+    () => ["inicio", "servicios", "mision", "quienes-somos", "integraciones", "precios", "equipo", "contacto"],
     []
   );
 
@@ -371,14 +164,6 @@ export function LandingPage() {
     return () => observer.disconnect();
   }, [sectionIds]);
 
-  const demoLink = calendlyUrl
-    ? calendlyUrl
-    : whatsappNumber
-      ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappDefaultMessage)}`
-      : "/#contacto";
-
-  const isExternalDemo = demoLink.startsWith("http");
-
   const contactDetails = [
     contactPhone
       ? {
@@ -423,7 +208,7 @@ export function LandingPage() {
   const navItems = [
     { href: "#inicio", label: "Inicio" },
     { href: "#servicios", label: "Servicios" },
-    { href: "#demo", label: "Demo" },
+    { href: "#quienes-somos", label: "Quiénes somos" },
     { href: "#integraciones", label: "Integraciones" },
     { href: "#precios", label: "Precios" },
     { href: "#equipo", label: "Equipo" },
@@ -513,137 +298,11 @@ export function LandingPage() {
     });
   };
 
-  const handleDemoLeadChange =
-    (field: keyof typeof demoLead) =>
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setDemoLead((prev) => ({ ...prev, [field]: event.target.value }));
-    };
-
-  const handleDemoSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setDemoStatus("loading");
-    setDemoError("");
-    setDemoFieldErrors({});
-
-    const result = await submitContactPayload({
-      fullName: demoLead.fullName,
-      email: demoLead.email,
-      company: demoLead.company,
-      interest: "Demo interactiva",
-      message: "Solicitud de demo desde el modal interactivo.",
-      plan: inferredPlan,
-      turnstileToken,
-    });
-
-    if (!result.ok) {
-      setDemoFieldErrors(result.fieldErrors);
-      setDemoStatus("error");
-      setDemoError(result.message);
-      return;
-    }
-
-    setDemoStatus("success");
-    setDemoLead({ fullName: "", email: "", company: "" });
-  };
-
   const buildPlanLink = (planId: string) => `/?plan=${planId}#contacto`;
 
   return (
     <div className="bg-background text-foreground">
       {turnstileSiteKey ? <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" /> : null}
-      <Dialog open={isDemoOpen} onOpenChange={setIsDemoOpen}>
-        <DialogContent className="sm:max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>Agenda una demo personalizada</DialogTitle>
-            <DialogDescription>
-              Déjanos tus datos y conversa con nuestro simulador para descubrir cómo automatizar tu PyME.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-6 lg:grid-cols-[1fr,1.1fr]">
-            <form className="space-y-4" onSubmit={handleDemoSubmit} noValidate>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold" htmlFor="demo-name">Nombre completo</label>
-                <input
-                  id="demo-name"
-                  name="demo-name"
-                  className="w-full h-11 px-4 rounded-lg border border-border bg-white dark:bg-background text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                  placeholder="Ej. Andrea López"
-                  value={demoLead.fullName}
-                  onChange={handleDemoLeadChange("fullName")}
-                  aria-invalid={Boolean(demoFieldErrors.fullName)}
-                  aria-describedby={demoFieldErrors.fullName ? "demo-name-error" : undefined}
-                  required
-                />
-                {demoFieldErrors.fullName ? (
-                  <p id="demo-name-error" className="text-xs text-red-500">{demoFieldErrors.fullName}</p>
-                ) : null}
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold" htmlFor="demo-email">Correo corporativo</label>
-                <input
-                  id="demo-email"
-                  name="demo-email"
-                  type="email"
-                  className="w-full h-11 px-4 rounded-lg border border-border bg-white dark:bg-background text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                  placeholder="equipo@empresa.com"
-                  value={demoLead.email}
-                  onChange={handleDemoLeadChange("email")}
-                  aria-invalid={Boolean(demoFieldErrors.email)}
-                  aria-describedby={demoFieldErrors.email ? "demo-email-error" : undefined}
-                  required
-                />
-                {demoFieldErrors.email ? (
-                  <p id="demo-email-error" className="text-xs text-red-500">{demoFieldErrors.email}</p>
-                ) : null}
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-semibold" htmlFor="demo-company">Empresa</label>
-                <input
-                  id="demo-company"
-                  name="demo-company"
-                  className="w-full h-11 px-4 rounded-lg border border-border bg-white dark:bg-background text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                  placeholder="Ej. Comercial ABC"
-                  value={demoLead.company}
-                  onChange={handleDemoLeadChange("company")}
-                  aria-invalid={Boolean(demoFieldErrors.company)}
-                  aria-describedby={demoFieldErrors.company ? "demo-company-error" : undefined}
-                  required
-                />
-                {demoFieldErrors.company ? (
-                  <p id="demo-company-error" className="text-xs text-red-500">{demoFieldErrors.company}</p>
-                ) : null}
-              </div>
-              <div className="space-y-3">
-                <button
-                  type="submit"
-                  disabled={demoStatus === "loading"}
-                  className="w-full bg-primary text-white font-bold h-11 rounded-lg hover:shadow-lg hover:shadow-primary/30 transition-all disabled:opacity-70"
-                >
-                  {demoStatus === "loading" ? "Enviando..." : "Solicitar demo"}
-                </button>
-                {demoStatus === "success" ? (
-                  <p className="text-xs text-green-600" role="status">¡Listo! Te contactaremos pronto.</p>
-                ) : null}
-                {demoStatus === "error" ? (
-                  <p className="text-xs text-red-500" role="status">{demoError}</p>
-                ) : null}
-              </div>
-              <div className="rounded-lg border border-border bg-muted/60 p-4 text-xs text-muted-foreground">
-                ¿Prefieres agendar con calendario?{" "}
-                <a
-                  href={demoLink}
-                  target={isExternalDemo ? "_blank" : undefined}
-                  rel={isExternalDemo ? "noreferrer" : undefined}
-                  className="text-primary font-semibold"
-                >
-                  Agenda aquí
-                </a>
-              </div>
-            </form>
-            <DemoChat reduceMotion={reduceMotion} compact onEvent={(event) => trackEvent(event)} />
-          </div>
-        </DialogContent>
-      </Dialog>
 
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/70 dark:bg-[#131022]/80 border-b border-white/30 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -673,17 +332,14 @@ export function LandingPage() {
             })}
           </nav>
           <div className="flex items-center gap-4">
-            <button
-              type="button"
+            <a
+              href="#contacto"
               className="bg-primary text-white text-sm font-bold px-6 py-2.5 rounded-lg shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all flex items-center gap-2"
-              onClick={() => {
-                setIsDemoOpen(true);
-                trackEvent("cta_demo_header");
-              }}
+              onClick={() => trackEvent("cta_contacto_header")}
             >
-              <span>Agendar Demo</span>
+              <span>Contactar</span>
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </button>
+            </a>
           </div>
         </div>
       </header>
@@ -724,17 +380,14 @@ export function LandingPage() {
                 Creamos chatbots y flujos inteligentes que actúan como tu secretaria virtual, mejoran la atención al cliente y optimizan procesos internos.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsDemoOpen(true);
-                    trackEvent("cta_demo_hero");
-                  }}
+                <a
+                  href="#contacto"
                   className="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl shadow-primary/25 hover:scale-[1.02] transition-transform flex items-center justify-center gap-3"
+                  onClick={() => trackEvent("cta_contacto_hero")}
                 >
-                  Agendar Demo
+                  Solicitar diagnóstico
                   <span className="material-symbols-outlined">calendar_today</span>
-                </button>
+                </a>
                 <a
                   href="#contacto"
                   className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 dark:hover:bg-white/10 transition-colors flex items-center justify-center gap-3"
@@ -832,7 +485,7 @@ export function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.06, duration: 0.45, ease: "easeOut" }}
-                className={`group flex flex-col gap-4 rounded-xl border border-border bg-card p-8 shadow-sm hover:shadow-md hover:border-primary/30 transition-all ${service.wide ? "lg:col-span-2" : ""}`}
+                className="group flex flex-col gap-4 rounded-xl border border-border bg-card p-8 shadow-sm hover:shadow-md hover:border-primary/30 transition-all"
               >
                 <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                   <span className="material-symbols-outlined text-3xl">{service.icon}</span>
@@ -853,61 +506,6 @@ export function LandingPage() {
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </a>
           </div>
-        </div>
-      </section>
-
-      <section id="demo" className="py-20 px-6 scroll-mt-24">
-        <div className="max-w-[1200px] mx-auto grid lg:grid-cols-[1.05fr,0.95fr] gap-10 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: reduceMotion ? 0 : 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="space-y-6"
-          >
-            <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary uppercase tracking-wider">
-              Demo en vivo
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              Prueba cómo se siente una conversación inteligente
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              Simula una conversación real con nuestro chatbot IA para ver cómo responde preguntas, agenda recordatorios y guía a tus clientes.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsDemoOpen(true);
-                  trackEvent("cta_demo_section");
-                }}
-                className="bg-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
-              >
-                Agendar demo
-              </button>
-              <a
-                href="#precios"
-                className="px-6 py-3 rounded-xl border border-border font-bold text-foreground hover:border-primary transition-colors"
-              >
-                Ver planes
-              </a>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="rounded-xl border border-border bg-card p-4">
-                <p className="text-xs font-bold text-primary uppercase">Caso típico</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  &quot;Necesito confirmar citas y responder mensajes sin estar conectado todo el día&quot;.
-                </p>
-              </div>
-              <div className="rounded-xl border border-border bg-card p-4">
-                <p className="text-xs font-bold text-primary uppercase">Respuesta IA</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  &quot;Puedo confirmar automáticamente y avisarte solo cuando necesites intervenir&quot;.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-          <DemoChat reduceMotion={reduceMotion} onEvent={(event) => trackEvent(event)} />
         </div>
       </section>
 
@@ -954,11 +552,71 @@ export function LandingPage() {
         </div>
       </section>
 
+      <section id="quienes-somos" className="py-20 px-6 scroll-mt-24 bg-slate-50/60 dark:bg-white/5">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-foreground text-3xl md:text-4xl font-bold leading-tight tracking-tight">Quiénes somos</h2>
+            <p className="text-muted-foreground text-lg max-w-3xl mx-auto mt-4">
+              En AuraLiqIA somos una empresa especializada en automatización de procesos e implementación de soluciones de
+              inteligencia artificial para organizaciones que buscan escalar, optimizar su operación y mejorar la interacción
+              con sus clientes mediante tecnología avanzada.
+            </p>
+          </div>
+          <div className="grid lg:grid-cols-[1.05fr,0.95fr] gap-8">
+            <div className="rounded-2xl border border-border bg-card p-8 shadow-sm space-y-4">
+              <h3 className="text-xl font-bold text-foreground">Nuestra esencia</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Diseñamos e integramos sistemas inteligentes que permiten a las empresas reducir fricciones operativas,
+                automatizar tareas repetitivas y transformar datos en decisiones, sin perder el enfoque estratégico del negocio.
+                Nuestro trabajo se centra en crear soluciones confiables, escalables y alineadas a los objetivos reales de cada organización.
+              </p>
+              <h4 className="text-lg font-semibold text-foreground">Nuestra visión y enfoque</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                En AuraLiqIA creemos que la inteligencia artificial debe ser una herramienta práctica, medible y orientada a resultados,
+                no un experimento tecnológico. Por ello, combinamos arquitectura de sistemas de alto nivel con análisis estratégico y visión financiera,
+                asegurando que cada implementación genere valor sostenible.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-8 shadow-sm space-y-4">
+              <h3 className="text-xl font-bold text-foreground">Nuestro enfoque se distingue por</h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="material-symbols-outlined text-primary text-base">check_circle</span>
+                  Diseño de arquitecturas de automatización robustas y escalables.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="material-symbols-outlined text-primary text-base">check_circle</span>
+                  Integración de IA en procesos comerciales, operativos y administrativos.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="material-symbols-outlined text-primary text-base">check_circle</span>
+                  Optimización de la comunicación entre empresas y sus clientes.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="material-symbols-outlined text-primary text-base">check_circle</span>
+                  Enfoque claro en eficiencia, crecimiento y retorno de inversión.
+                </li>
+              </ul>
+              <p className="text-sm text-muted-foreground leading-relaxed pt-2">
+                Trabajamos con empresas que buscan profesionalizar su operación y prepararse para un entorno cada vez más digital y competitivo.
+              </p>
+              <h4 className="text-lg font-semibold text-foreground">Nuestro compromiso</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                En AuraLiqIA acompañamos a nuestros clientes desde el diseño hasta la implementación y optimización continua de sus sistemas
+                de automatización. Nos comprometemos a construir soluciones que no solo funcionen hoy, sino que se adapten al crecimiento y a los
+                retos futuros de cada organización. Creemos en la tecnología como un habilitador estratégico, capaz de transformar la manera en que
+                las empresas operan, se comunican y generan valor.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="integraciones" className="w-full flex justify-center py-16 bg-white dark:bg-[#1c1933]/50 scroll-mt-24">
         <div className="w-full max-w-[1200px] px-8">
           <div className="flex flex-col items-center mb-10">
             <h2 className="text-foreground text-2xl font-bold leading-tight tracking-tight text-center">
-              Integraciones para automatización omnicanal
+              Integraciones para automatización multicanal
             </h2>
             <div className="h-1 w-20 bg-primary mt-4 rounded-full" />
           </div>
@@ -1047,22 +705,22 @@ export function LandingPage() {
               Equipo fundador
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Co-CEOs enfocados en acelerar el crecimiento de PyMEs con automatización inteligente.
+              Equipo directivo enfocado en acelerar el crecimiento con automatización inteligente.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
                 name: "Arturo Moreno",
-                role: "Co-CEO / Ingeniero en Sistemas",
-                bio: "Diseña la arquitectura conversacional y las integraciones técnicas para que cada flujo funcione desde el primer día.",
+                role: "Co-Founder & Chief Technology Officer",
+                bio: "Ingeniero mecatrónico con especialización en sistemas computacionales. Arturo diseña la arquitectura de sistemas, automatización e integración tecnológica, asegurando estabilidad, seguridad y escalabilidad en cada plataforma.",
                 avatar: "/team/arturo.jpg",
               },
               {
                 name: "Carlos Lascurain",
-                role: "Co-CEO / CFO",
-                bio: "Asegura que la operación sea escalable y rentable, acompañando a clientes en el retorno de inversión de cada automatización.",
-                avatar: "/team/carlos.jpg",
+                role: "Co-Founder & Chief Financial Officer",
+                bio: "Financiero con experiencia global en gestión estratégica y estructuración financiera. Carlos conecta la tecnología con la rentabilidad y el crecimiento, alineando cada solución con objetivos financieros claros.",
+                avatar: "/team/carlos.svg",
               },
             ].map((member, index) => (
               <motion.div
@@ -1195,9 +853,7 @@ export function LandingPage() {
                       <option value="">Selecciona un servicio</option>
                       <option value="Chatbots">Chatbots y atención al cliente</option>
                       <option value="Secretaría virtual">Secretaría virtual y recordatorios</option>
-                      <option value="Automatización de CRM">Automatización de leads/CRM</option>
-                      <option value="Cobranza">Cobranza y seguimiento</option>
-                      <option value="Reportes">Reportes y BI</option>
+                      <option value="Integraciones multicanal">Integraciones multicanal</option>
                       <option value="Plan Básico">Plan Básico</option>
                       <option value="Plan Avanzado">Plan Avanzado</option>
                       <option value="Otro">Otro servicio especializado</option>
@@ -1295,7 +951,6 @@ export function LandingPage() {
               <h4 className="font-bold mb-6">Plataforma</h4>
               <ul className="space-y-4 text-sm text-gray-400">
                 <li><a className="hover:text-white transition-colors" href="#servicios">Servicios</a></li>
-                <li><a className="hover:text-white transition-colors" href="#demo">Demo</a></li>
                 <li><a className="hover:text-white transition-colors" href="#integraciones">Integraciones</a></li>
                 <li><a className="hover:text-white transition-colors" href="#precios">Precios</a></li>
               </ul>
@@ -1304,6 +959,7 @@ export function LandingPage() {
               <h4 className="font-bold mb-6">Empresa</h4>
               <ul className="space-y-4 text-sm text-gray-400">
                 <li><a className="hover:text-white transition-colors" href="#mision">Misión y Visión</a></li>
+                <li><a className="hover:text-white transition-colors" href="#quienes-somos">Quiénes somos</a></li>
                 <li><a className="hover:text-white transition-colors" href="#equipo">Equipo</a></li>
                 <li><a className="hover:text-white transition-colors" href="#contacto">Contacto</a></li>
                 <li><a className="hover:text-white transition-colors" href="#precios">Paquetes</a></li>
@@ -1315,17 +971,14 @@ export function LandingPage() {
                 <p className="text-sm text-gray-300 mb-4">
                   Activa tu estrategia de automatización y recibe un diagnóstico gratuito.
                 </p>
-                <button
-                  type="button"
+                <a
+                  href="#contacto"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-primary transition-colors"
-                  onClick={() => {
-                    setIsDemoOpen(true);
-                    trackEvent("cta_demo_footer");
-                  }}
+                  onClick={() => trackEvent("cta_contacto_footer")}
                 >
-                  Agendar Demo
+                  Contactar
                   <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-                </button>
+                </a>
               </div>
             </div>
           </div>

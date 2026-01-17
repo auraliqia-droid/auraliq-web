@@ -2,12 +2,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 const faqs = [
   {
-    question: "¿Cómo agendo la demo?",
-    answer: "Haz clic en \"Agenda tu demo\", el calendario se abre en la misma página y eliges la hora que prefieras.",
+    question: "¿Cómo agendo una consulta?",
+    answer: "Haz clic en \"Contactar\" o \"Solicitar diagnóstico\", completa tus datos y elegimos la hora que prefieras.",
   },
   {
     question: "¿Qué tan rápido puedo salir en vivo?",
-    answer: "En 3 a 7 días según el número de flujos. Durante la demo dejamos configurado tu caso de uso principal.",
+    answer: "En 3 a 7 días según el número de flujos. Durante la consulta dejamos configurado tu caso de uso principal.",
   },
   {
     question: "¿Se conecta con mis herramientas?",
@@ -28,7 +28,7 @@ export function FAQ() {
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
           <div className="space-y-4">
             <h2 className="text-3xl font-semibold">Preguntas Frecuentes</h2>
-            <p className="text-muted-foreground">Respuestas rápidas sobre el nuevo flujo de demo y las integraciones.</p>
+            <p className="text-muted-foreground">Respuestas rápidas sobre nuestro proceso de contacto e integraciones.</p>
           </div>
 
           <div className="rounded-[28px] border border-border/70 bg-card/90 p-6 shadow-xl">

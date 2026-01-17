@@ -7,7 +7,7 @@ import { motion, useReducedMotion } from "framer-motion";
 const services = [
   {
     icon: Bot,
-    title: "Agente omnicanal",
+    title: "Agente multicanal",
     description: "Un mismo cerebro para WhatsApp, Instagram, web y voz, con tono coherente en todos los puntos de contacto.",
     bullets: ["Respuestas guiadas y contextuales", "Handoff a humanos en un clic"],
   },

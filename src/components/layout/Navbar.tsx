@@ -48,7 +48,7 @@ export function Navbar() {
             asChild
             className="hidden sm:inline-flex bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
           >
-            <Link href="#booking">Agenda tu demo</Link>
+            <Link href="#contacto">Contactar</Link>
           </Button>
         </div>
       </div>

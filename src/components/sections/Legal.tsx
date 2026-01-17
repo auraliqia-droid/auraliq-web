@@ -14,7 +14,7 @@ export function Legal() {
           <p className="text-xs uppercase tracking-[0.3em] text-secondary font-semibold">Términos</p>
           <h3 className="text-2xl font-semibold text-foreground">Uso responsable de Auraliq IA</h3>
           <p className="text-muted-foreground leading-relaxed">
-            La automatización se configura con tus reglas y supervisión. No almacenamos credenciales sensibles y solo activamos integraciones autorizadas. Al agendar una demo aceptas recibir comunicaciones operativas y puedes darte de baja cuando quieras.
+            La automatización se configura con tus reglas y supervisión. No almacenamos credenciales sensibles y solo activamos integraciones autorizadas. Al solicitar una consulta aceptas recibir comunicaciones operativas y puedes darte de baja cuando quieras.
           </p>
         </div>
       </div>

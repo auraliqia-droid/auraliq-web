@@ -38,7 +38,7 @@ export function Hero() {
                 size="lg"
                 className="h-14 px-10 text-base rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-transform hover:-translate-y-0.5"
               >
-                <Link href="#booking">Agenda tu demo gratuita</Link>
+                <Link href="#contacto">Solicitar diagnóstico</Link>
               </Button>
             </div>
           </div>
