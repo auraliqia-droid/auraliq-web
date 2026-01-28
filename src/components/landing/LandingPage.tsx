@@ -25,13 +25,13 @@ const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "";
 const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
-const heroImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBMf48jrFObM3jtshQHGX9Jp_bD60YLjIlxgfGJjf2w_73HT6gfigiySUUT_wBN1fnRlGJ8rIq4THv8P2BHpOujDVHNwfxmtpaC6aUASQPCvjob9U_AEsAg3MJ2lSGC3EiZZYC-4Qk33OyoURYCoFwdJvTgMWrhV-4_12ogzBV8ZhNSWq1TFuC9Nmlvcl_MhXoUsLxavsCrfd1nuzwdnY83JtAJSWtA2hdtc0I23M5QIPAVdj4wWU9PnA-1vbx2FhI3G4_8Sx5J53I";
+const heroImage = "";
+const formspreeEndpoint = "https://formspree.io/f/mykwqjkw";
 
 const services = [
   {
     icon: "support_agent",
-    title: "Chatbots sofisticados para clientes",
+    title: "Chatbots inteligentes para clientes",
     description:
       "Atiende consultas, cotiza y resuelve FAQs con conversaciones naturales que mantienen a tus clientes atendidos 24/7.",
   },
@@ -46,6 +46,12 @@ const services = [
     title: "Integraciones multicanal",
     description:
       "Conecta WhatsApp, webchat, email y herramientas internas para una atención fluida y sin fricciones.",
+  },
+  {
+    icon: "language",
+    title: "Creación y administración de páginas web",
+    description:
+      "Diseñamos sitios web profesionales y administramos su contenido para mantener tu presencia digital siempre actualizada.",
   },
 ];
 
@@ -75,25 +81,42 @@ const integrations = [
 
 const pricingPlans = [
   {
-    id: "basico",
-    name: "Básico",
-    price: "$2,500 MXN",
-    description: "Automatización esencial para iniciar con IA en tu PyME.",
+    id: "esencial",
+    name: "Esencial: Presencia Digital",
+    headline: "Ideal para profesionales independientes o negocios que inician su camino online.",
+    price: "Inversión única: $4,000 MXN",
     bullets: [
-      "Automatización de comunicación principal",
-      "Chatbot básico con FAQs",
-      "Soporte inicial y puesta en marcha",
+      "Diseño Web Profesional de alto impacto.",
+      "Optimización móvil.",
+      "SEO básico.",
+      "Botón directo a WhatsApp.",
+      "Modificaciones posteriores: $500 MXN c/u.",
     ],
   },
   {
-    id: "avanzado",
-    name: "Avanzado",
-    price: "$6,000 MXN",
-    description: "Escala la experiencia con IA y flujos más completos.",
+    id: "gestion",
+    name: "Gestión: Crecimiento Activo",
+    headline: "Configuración inicial: $5,000 MXN",
+    price: "Suscripción mensual: $1,500 MXN",
     bullets: [
-      "Chatbot avanzado y respuestas contextuales",
-      "Recordatorios automatizados",
-      "Integración de flujos clave",
+      "Todo lo del Plan Esencial.",
+      "Hosting, seguridad y respaldos.",
+      "5 modificaciones mensuales incluidas.",
+      "Soporte prioritario.",
+      "Reportes mensuales de visitas y rendimiento.",
+    ],
+  },
+  {
+    id: "aura-inteligente",
+    name: "Aura Inteligente: Automatización Total",
+    headline: "Implementación: $12,500 MXN",
+    price: "Mantenimiento IA: $3,500 MXN/mes",
+    bullets: [
+      "Todo lo del Plan Gestión.",
+      "Agente conversacional AuraLiq entrenado con información del negocio.",
+      "Atención 24/7.",
+      "Captura automática de leads.",
+      "Actualizaciones constantes del modelo de IA.",
     ],
   },
 ];
@@ -122,8 +145,9 @@ export function LandingPage() {
 
   const normalizedPlan = useMemo(() => {
     const plan = searchParams.get("plan");
-    if (plan === "avanzado") return "Avanzado";
-    if (plan === "basico") return "Básico";
+    if (plan === "esencial") return "Esencial: Presencia Digital";
+    if (plan === "gestion") return "Gestión: Crecimiento Activo";
+    if (plan === "aura-inteligente") return "Aura Inteligente: Automatización Total";
     return "";
   }, [searchParams]);
 
@@ -243,12 +267,17 @@ export function LandingPage() {
       };
     }
 
-    const response = await fetch("/api/contact", {
+    const formData = new FormData();
+    Object.entries(result.data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    const response = await fetch(formspreeEndpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      body: JSON.stringify(result.data),
+      body: formData,
     });
 
     if (!response.ok) {
@@ -298,7 +327,12 @@ export function LandingPage() {
     });
   };
 
-  const buildPlanLink = (planId: string) => `/?plan=${planId}#contacto`;
+  const buildPlanLink = (planName: string) =>
+    whatsappNumber
+      ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+          `Hola AuraLiq, me interesa el plan ${planName}. ¿Podemos platicar?`
+        )}`
+      : "/#contacto";
 
   return (
     <div className="bg-background text-foreground">
@@ -420,14 +454,18 @@ export function LandingPage() {
             >
               <div className="relative z-10 w-full aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 to-purple-600/20 flex items-center justify-center border border-white/20">
                 <div className="absolute inset-0 mix-blend-overlay opacity-60">
-                  <Image
-                    src={heroImage}
-                    alt="Panel de automatización empresarial"
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    priority
-                  />
+                  {heroImage ? (
+                    <Image
+                      src={heroImage}
+                      alt="Panel de automatización empresarial"
+                      width={900}
+                      height={900}
+                      className="h-full w-full object-cover"
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      priority
+                      unoptimized
+                    />
+                  ) : null}
                 </div>
                 <div className="relative z-20 flex flex-col items-center text-center p-8">
                   <div className="w-24 h-24 bg-white/10 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-6 border border-white/20">
@@ -437,15 +475,6 @@ export function LandingPage() {
                   <p className="text-white/80 max-w-xs text-sm">
                     Automatiza tu operación con respuestas inmediatas, confirmaciones inteligentes y métricas accionables.
                   </p>
-                </div>
-              </div>
-              <div className="absolute -bottom-6 -left-6 z-30 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-slate-100 dark:border-white/10">
-                <div className="w-12 h-12 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center">
-                  <span className="material-symbols-outlined">trending_up</span>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">Eficiencia operativa</p>
-                  <p className="text-xl font-extrabold text-slate-900 dark:text-white">+40%</p>
                 </div>
               </div>
             </motion.div>
@@ -532,6 +561,10 @@ export function LandingPage() {
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Mejorar el desempeño empresarial de PyMEs mediante automatización con IA, entregando resultados medibles y un servicio sofisticado.
               </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Como empresa 100% mexicana, creada por mexicanos para mexicanos, reforzamos nuestro compromiso de impulsar a los negocios a su mejor
+                desempeño mediante soluciones digitales e Inteligencia Artificial que generan valor real.
+              </p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: reduceMotion ? 0 : 16 }}
@@ -546,6 +579,10 @@ export function LandingPage() {
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Ser referentes en innovación, crecimiento sustentable y eficiencia automatizada para PyMEs en México y LATAM.
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Desde México, buscamos consolidarnos como una empresa mexicana referente en automatización y productividad empresarial,
+                apoyando a negocios nacionales a crecer y competir con tecnología de clase mundial.
               </p>
             </motion.div>
           </div>
@@ -656,12 +693,14 @@ export function LandingPage() {
       <section id="precios" className="py-20 px-6 text-center scroll-mt-24">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-foreground text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-4">Precios y Paquetes</h2>
+            <h2 className="text-foreground text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-4">
+              ⚡ Elige el plan ideal para impulsar tu negocio
+            </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Elige el plan que se adapta al ritmo de tu negocio y escala cuando lo necesites.
+              Soluciones digitales diseñadas para escalar, desde presencia básica hasta automatización con Inteligencia Artificial.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {pricingPlans.map((plan, index) => (
               <motion.div
                 key={plan.id}
@@ -672,9 +711,9 @@ export function LandingPage() {
                 className="rounded-2xl border border-border bg-card shadow-lg p-8 text-left flex flex-col gap-6 hover:-translate-y-1 transition-transform"
               >
                 <div>
-                  <p className="text-sm font-semibold text-primary uppercase tracking-wider">Plan {plan.name}</p>
-                  <h3 className="text-3xl font-extrabold text-foreground mt-2">{plan.price}</h3>
-                  <p className="text-sm text-muted-foreground mt-2">{plan.description}</p>
+                  <p className="text-sm font-semibold text-primary uppercase tracking-wider">{plan.name}</p>
+                  <h3 className="text-2xl font-extrabold text-foreground mt-2">{plan.headline}</h3>
+                  <p className="text-lg font-semibold text-foreground mt-2">{plan.price}</p>
                 </div>
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   {plan.bullets.map((bullet) => (
@@ -685,15 +724,22 @@ export function LandingPage() {
                   ))}
                 </ul>
                 <a
-                  href={buildPlanLink(plan.id)}
+                  href={buildPlanLink(plan.name)}
                   onClick={() => trackEvent("cta_plan", { plan: plan.name })}
                   className="w-full bg-primary text-white font-bold h-12 rounded-lg hover:shadow-lg hover:shadow-primary/30 transition-all flex items-center justify-center gap-2"
                 >
-                  Elegir plan
+                  Hablar por WhatsApp
                   <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </a>
               </motion.div>
             ))}
+          </div>
+          <div className="mt-12 rounded-2xl border border-border bg-slate-50/70 dark:bg-white/5 p-8 text-left shadow-sm">
+            <h3 className="text-2xl font-bold text-foreground mb-3">🛠️ ¿Por qué elegir a AuraLiq?</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              En AuraLiq no solo creamos páginas, construimos herramientas de ventas. Ya sea que necesites una presencia digital elegante o un
+              sistema automatizado inteligente, tenemos la tecnología para hacerlo realidad.
+            </p>
           </div>
         </div>
       </section>
@@ -780,7 +826,13 @@ export function LandingPage() {
               </div>
 
               <div className="p-8 md:p-12">
-                <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+                <form
+                  className="space-y-5"
+                  action={formspreeEndpoint}
+                  method="POST"
+                  onSubmit={handleSubmit}
+                  noValidate
+                >
                   <div className="space-y-2">
                     <label className="text-foreground text-sm font-semibold" htmlFor="fullName">Nombre Completo</label>
                     <input
@@ -854,8 +906,10 @@ export function LandingPage() {
                       <option value="Chatbots">Chatbots y atención al cliente</option>
                       <option value="Secretaría virtual">Secretaría virtual y recordatorios</option>
                       <option value="Integraciones multicanal">Integraciones multicanal</option>
-                      <option value="Plan Básico">Plan Básico</option>
-                      <option value="Plan Avanzado">Plan Avanzado</option>
+                      <option value="Creación y administración de páginas web">Creación y administración de páginas web</option>
+                      <option value="Plan Esencial: Presencia Digital">Plan Esencial: Presencia Digital</option>
+                      <option value="Plan Gestión: Crecimiento Activo">Plan Gestión: Crecimiento Activo</option>
+                      <option value="Plan Aura Inteligente: Automatización Total">Plan Aura Inteligente: Automatización Total</option>
                       <option value="Otro">Otro servicio especializado</option>
                     </select>
                     {fieldErrors.interest ? (
