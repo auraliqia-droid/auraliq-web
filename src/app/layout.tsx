@@ -40,6 +40,8 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <head>
+        <link rel="dns-prefetch" href="//formspree.io" />
+        <link rel="preconnect" href="https://formspree.io" crossOrigin="" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"

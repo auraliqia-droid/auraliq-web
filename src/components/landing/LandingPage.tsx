@@ -278,6 +278,7 @@ export function LandingPage() {
         Accept: "application/json",
       },
       body: formData,
+      keepalive: true,
     });
 
     if (!response.ok) {
@@ -832,6 +833,7 @@ export function LandingPage() {
                   method="POST"
                   onSubmit={handleSubmit}
                   noValidate
+                  aria-busy={formStatus === "loading"}
                 >
                   <div className="space-y-2">
                     <label className="text-foreground text-sm font-semibold" htmlFor="fullName">Nombre Completo</label>
