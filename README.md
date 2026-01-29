@@ -45,9 +45,10 @@ NEXT_PUBLIC_SITE_URL=https://www.auraliqia.com
 
 # Contacto visible en la landing
 NEXT_PUBLIC_CONTACT_EMAIL=contacto@tuempresa.com
-NEXT_PUBLIC_CONTACT_PHONE=+52 55 1234 5678
-NEXT_PUBLIC_WHATSAPP_NUMBER=5215512345678
-NEXT_PUBLIC_WHATSAPP_MESSAGE="Hola, quiero automatizar mi PyME con IA."
+NEXT_PUBLIC_CONTACT_PHONE=+52 220 625 1023
+NEXT_PUBLIC_WHATSAPP_NUMBER=522206251023
+NEXT_PUBLIC_WHATSAPP_MESSAGE="Hola AuraLiqIA, quiero información sobre sus paquetes."
+NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/auraliqia/?utm_source=ig_web_button_share_sheet
 
 # Demo agendada (opcional)
 NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/tuempresa/demo
@@ -59,7 +60,7 @@ TURNSTILE_SECRET_KEY=your_turnstile_secret_key
 # Resend (envío de correos del formulario)
 RESEND_API_KEY=your_resend_api_key
 RESEND_FROM_EMAIL="AuraLiqIA <no-reply@tuempresa.com>"
-RESEND_TO_EMAIL=contacto@tuempresa.com
+RESEND_TO_EMAIL=auraliqia@gmail.com
 
 ```
 

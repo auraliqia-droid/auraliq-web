@@ -21,8 +21,12 @@ declare global {
 }
 
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "";
-const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "";
-const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
+const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "+52 220 625 1023";
+const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "522206251023";
+const whatsappMessage =
+  process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE ?? "Hola AuraLiqIA, quiero información sobre sus paquetes.";
+const instagramUrl =
+  process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://www.instagram.com/auraliqia/?utm_source=ig_web_button_share_sheet";
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const heroImage = "/hero-auraliq-nuevo.webp";
@@ -74,42 +78,43 @@ const integrations = [
 
 const pricingPlans = [
   {
-    id: "esencial",
-    name: "Esencial: Presencia Digital",
-    headline: "Ideal para profesionales independientes o negocios que inician su camino online.",
-    price: "Inversión única: $4,000 MXN",
+    id: "auraweb",
+    name: "AuraWeb",
+    description: "Lanza una web profesional que vende por ti, con soporte continuo y presencia impecable en todos los dispositivos.",
+    initialPrice: "$5,000 MXN",
+    monthlyPrice: "$1,000 MXN",
     bullets: [
-      "Diseño Web Profesional de alto impacto.",
-      "Optimización móvil.",
-      "SEO básico.",
-      "Botón directo a WhatsApp.",
-      "Modificaciones posteriores: $500 MXN c/u.",
+      "Administración integral de tu sitio.",
+      "Dominio, hosting y mantenimiento técnico incluidos.",
+      "Derecho a 5 modificaciones mensuales de contenido.",
+      "Soporte continuo para mantener tu web siempre actualizada.",
     ],
   },
   {
-    id: "gestion",
-    name: "Gestión: Crecimiento Activo",
-    headline: "Configuración inicial: $5,000 MXN",
-    price: "Suscripción mensual: $1,500 MXN",
+    id: "aurabot-ia",
+    name: "AuraBot IA",
+    description: "Atiende leads 24/7 con un agente conversacional que califica prospectos y conecta con tu CRM al instante.",
+    initialPrice: "$12,000 MXN",
+    monthlyPrice: "$3,000 MXN",
     bullets: [
-      "Todo lo del Plan Esencial.",
-      "Hosting, seguridad y respaldos.",
-      "5 modificaciones mensuales incluidas.",
-      "Soporte prioritario.",
-      "Reportes mensuales de visitas y rendimiento.",
+      "Agente conversacional especializado en tu negocio.",
+      "Captura activa de prospectos (leads).",
+      "Conexión directa a tu CRM.",
+      "Soporte técnico permanente.",
     ],
   },
   {
-    id: "aura-inteligente",
-    name: "Aura Inteligente: Automatización Total",
-    headline: "Implementación: $12,500 MXN",
-    price: "Mantenimiento IA: $3,500 MXN/mes",
+    id: "aurasuite",
+    name: "AuraSuite",
+    description: "Integra sitio web y automatización IA para maximizar conversiones y proyectar un ecosistema digital premium.",
+    initialPrice: "$15,000 MXN",
+    monthlyPrice: "$3,000 MXN",
+    featured: true,
     bullets: [
-      "Todo lo del Plan Gestión.",
-      "Agente conversacional AuraLiq entrenado con información del negocio.",
-      "Atención 24/7.",
-      "Captura automática de leads.",
-      "Actualizaciones constantes del modelo de IA.",
+      "Web profesional + IA en un solo ecosistema.",
+      "Mayor conversión con atención 24/7.",
+      "Integración total de servicios para máxima eficiencia.",
+      "Ahorro de tiempo operativo y más cierres.",
     ],
   },
 ];
@@ -123,9 +128,11 @@ export function LandingPage() {
   const [formState, setFormState] = useState({
     fullName: "",
     email: "",
+    phone: "",
     company: "",
     interest: "",
     message: "",
+    website: "",
   });
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formError, setFormError] = useState("");
@@ -138,9 +145,9 @@ export function LandingPage() {
 
   const normalizedPlan = useMemo(() => {
     const plan = searchParams.get("plan");
-    if (plan === "esencial") return "Esencial: Presencia Digital";
-    if (plan === "gestion") return "Gestión: Crecimiento Activo";
-    if (plan === "aura-inteligente") return "Aura Inteligente: Automatización Total";
+    if (plan === "auraweb") return "AuraWeb";
+    if (plan === "aurabot-ia") return "AuraBot IA";
+    if (plan === "aurasuite") return "AuraSuite";
     return "";
   }, [searchParams]);
 
@@ -196,11 +203,18 @@ export function LandingPage() {
           href: `mailto:${contactEmail}`,
         }
       : null,
+    instagramUrl
+      ? {
+          icon: "photo_camera",
+          label: "Instagram",
+          href: instagramUrl,
+        }
+      : null,
     whatsappNumber
       ? {
           icon: "chat",
           label: "WhatsApp Empresarial",
-          href: `https://wa.me/${whatsappNumber}`,
+          href: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
         }
       : null,
   ].filter(Boolean) as Array<{ icon: string; label: string; href: string }>;
@@ -209,8 +223,15 @@ export function LandingPage() {
     whatsappNumber
       ? {
           icon: "chat",
-          href: `https://wa.me/${whatsappNumber}`,
+          href: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
           label: "Abrir WhatsApp",
+        }
+      : null,
+    instagramUrl
+      ? {
+          icon: "photo_camera",
+          href: instagramUrl,
+          label: "Instagram",
         }
       : null,
     contactEmail
@@ -309,18 +330,21 @@ export function LandingPage() {
     setFormState({
       fullName: "",
       email: "",
+      phone: "",
       company: "",
       interest: "",
       message: "",
+      website: "",
     });
   };
 
-  const buildPlanLink = (planName: string) =>
+  const buildWhatsappLink = (message?: string) =>
     whatsappNumber
-      ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-          `Hola AuraLiq, me interesa el plan ${planName}. ¿Podemos platicar?`
-        )}`
+      ? `https://wa.me/${whatsappNumber}${message ? `?text=${encodeURIComponent(message)}` : ""}`
       : "/#contacto";
+
+  const buildPlanLink = (planName: string) =>
+    buildWhatsappLink(`Hola AuraLiqIA, me interesa el plan ${planName}. ¿Podemos platicar?`);
 
   return (
     <div className="bg-background text-foreground">
@@ -354,6 +378,28 @@ export function LandingPage() {
             })}
           </nav>
           <div className="flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-3">
+              <a
+                href={buildWhatsappLink(whatsappMessage)}
+                className="inline-flex items-center gap-2 rounded-full border border-primary/30 px-4 py-2 text-xs font-semibold text-primary hover:bg-primary hover:text-white transition-colors"
+                aria-label="Abrir WhatsApp Business"
+                onClick={() => trackEvent("cta_whatsapp_header")}
+              >
+                <span className="material-symbols-outlined text-sm">chat</span>
+                WhatsApp
+              </a>
+              <a
+                href={instagramUrl}
+                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-semibold text-foreground hover:border-primary hover:text-primary transition-colors"
+                aria-label="Abrir Instagram AuraLiqIA"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackEvent("cta_instagram_header")}
+              >
+                <span className="material-symbols-outlined text-sm">photo_camera</span>
+                Instagram
+              </a>
+            </div>
             <a
               href="#contacto"
               className="bg-primary text-white text-sm font-bold px-6 py-2.5 rounded-lg shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all flex items-center gap-2"
@@ -693,12 +739,29 @@ export function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, ease: "easeOut", delay: index * 0.1 }}
-                className="rounded-2xl border border-border bg-card shadow-lg p-8 text-left flex flex-col gap-6 hover:-translate-y-1 transition-transform"
+                className={`rounded-2xl border bg-card shadow-lg p-8 text-left flex flex-col gap-6 hover:-translate-y-1 transition-transform ${
+                  plan.featured ? "border-primary/60 ring-2 ring-primary/40 bg-primary/5" : "border-border"
+                }`}
               >
                 <div>
-                  <p className="text-sm font-semibold text-primary uppercase tracking-wider">{plan.name}</p>
-                  <h3 className="text-2xl font-extrabold text-foreground mt-2">{plan.headline}</h3>
-                  <p className="text-lg font-semibold text-foreground mt-2">{plan.price}</p>
+                  {plan.featured ? (
+                    <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary uppercase tracking-wider">
+                      Ecosistema digital
+                    </span>
+                  ) : null}
+                  <p className="text-sm font-semibold text-primary uppercase tracking-wider mt-3">Plan</p>
+                  <h3 className="text-2xl font-extrabold text-foreground mt-2">{plan.name}</h3>
+                  <p className="text-sm text-muted-foreground mt-2">{plan.description}</p>
+                  <div className="mt-4 grid gap-2">
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Pago inicial</p>
+                      <p className="text-lg font-semibold text-foreground">{plan.initialPrice}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Mensualidad</p>
+                      <p className="text-lg font-semibold text-foreground">{plan.monthlyPrice}</p>
+                    </div>
+                  </div>
                 </div>
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   {plan.bullets.map((bullet) => (
@@ -713,7 +776,7 @@ export function LandingPage() {
                   onClick={() => trackEvent("cta_plan", { plan: plan.name })}
                   className="w-full bg-primary text-white font-bold h-12 rounded-lg hover:shadow-lg hover:shadow-primary/30 transition-all flex items-center justify-center gap-2"
                 >
-                  Hablar por WhatsApp
+                  Cotizar por WhatsApp
                   <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </a>
               </motion.div>
@@ -812,6 +875,18 @@ export function LandingPage() {
 
               <div className="p-8 md:p-12">
                 <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+                  <div className="sr-only" aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input
+                      id="website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formState.website}
+                      onChange={handleChange("website")}
+                    />
+                  </div>
                   <div className="space-y-2">
                     <label className="text-foreground text-sm font-semibold" htmlFor="fullName">Nombre Completo</label>
                     <input
@@ -851,6 +926,24 @@ export function LandingPage() {
                     ) : null}
                   </div>
                   <div className="space-y-2">
+                    <label className="text-foreground text-sm font-semibold" htmlFor="phone">Teléfono</label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      className="w-full h-12 px-4 rounded-lg border border-border bg-white dark:bg-background text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-gray-400"
+                      placeholder="+52 220 625 1023"
+                      type="tel"
+                      autoComplete="tel"
+                      value={formState.phone}
+                      onChange={handleChange("phone")}
+                      aria-invalid={Boolean(fieldErrors.phone)}
+                      aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
+                    />
+                    {fieldErrors.phone ? (
+                      <p id="phone-error" className="text-xs text-red-500">{fieldErrors.phone}</p>
+                    ) : null}
+                  </div>
+                  <div className="space-y-2">
                     <label className="text-foreground text-sm font-semibold" htmlFor="company">Empresa</label>
                     <input
                       id="company"
@@ -885,9 +978,9 @@ export function LandingPage() {
                       <option value="Chatbots">Chatbots y atención al cliente</option>
                       <option value="Secretaría virtual">Secretaría virtual y recordatorios</option>
                       <option value="Integraciones multicanal">Integraciones multicanal</option>
-                      <option value="Plan Esencial: Presencia Digital">Plan Esencial: Presencia Digital</option>
-                      <option value="Plan Gestión: Crecimiento Activo">Plan Gestión: Crecimiento Activo</option>
-                      <option value="Plan Aura Inteligente: Automatización Total">Plan Aura Inteligente: Automatización Total</option>
+                      <option value="Plan AuraWeb">Plan AuraWeb</option>
+                      <option value="Plan AuraBot IA">Plan AuraBot IA</option>
+                      <option value="Plan AuraSuite">Plan AuraSuite</option>
                       <option value="Otro">Otro servicio especializado</option>
                     </select>
                     {fieldErrors.interest ? (
@@ -895,7 +988,7 @@ export function LandingPage() {
                     ) : null}
                   </div>
                   <div className="space-y-2">
-                    <label className="text-foreground text-sm font-semibold" htmlFor="message">Mensaje (opcional)</label>
+                    <label className="text-foreground text-sm font-semibold" htmlFor="message">Mensaje</label>
                     <textarea
                       id="message"
                       name="message"
@@ -903,7 +996,13 @@ export function LandingPage() {
                       placeholder="Cuéntanos sobre tu operación y objetivos."
                       value={formState.message}
                       onChange={handleChange("message")}
+                      aria-invalid={Boolean(fieldErrors.message)}
+                      aria-describedby={fieldErrors.message ? "message-error" : undefined}
+                      required
                     />
+                    {fieldErrors.message ? (
+                      <p id="message-error" className="text-xs text-red-500">{fieldErrors.message}</p>
+                    ) : null}
                   </div>
                   <input type="hidden" name="plan" value={inferredPlan} />
                   {turnstileSiteKey ? (
@@ -943,6 +1042,35 @@ export function LandingPage() {
           </div>
         </div>
       </section>
+
+      <div className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-6 z-50 flex flex-col gap-3">
+        <a
+          href={buildWhatsappLink(whatsappMessage)}
+          className="group relative flex items-center justify-center size-12 rounded-full bg-[#25D366] text-white shadow-lg hover:shadow-xl transition-all"
+          aria-label="Abrir WhatsApp Business"
+          title="WhatsApp"
+          onClick={() => trackEvent("cta_whatsapp_fab")}
+        >
+          <span className="material-symbols-outlined text-[22px]">chat</span>
+          <span className="pointer-events-none absolute right-full mr-3 hidden sm:inline-flex rounded-md bg-[#0f172a] px-3 py-1 text-xs font-semibold text-white opacity-0 shadow-md transition-opacity group-hover:opacity-100">
+            WhatsApp
+          </span>
+        </a>
+        <a
+          href={instagramUrl}
+          className="group relative flex items-center justify-center size-12 rounded-full bg-gradient-to-br from-[#f58529] via-[#dd2a7b] to-[#515bd4] text-white shadow-lg hover:shadow-xl transition-all"
+          aria-label="Abrir Instagram AuraLiqIA"
+          title="Instagram"
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => trackEvent("cta_instagram_fab")}
+        >
+          <span className="material-symbols-outlined text-[22px]">photo_camera</span>
+          <span className="pointer-events-none absolute right-full mr-3 hidden sm:inline-flex rounded-md bg-[#0f172a] px-3 py-1 text-xs font-semibold text-white opacity-0 shadow-md transition-opacity group-hover:opacity-100">
+            Instagram
+          </span>
+        </a>
+      </div>
 
       <footer className="relative w-full overflow-hidden bg-gradient-to-br from-[#1a1a2e] via-[#131022] to-primary/20 text-white py-16">
         <div className="max-w-[1280px] mx-auto px-6 relative z-10">
