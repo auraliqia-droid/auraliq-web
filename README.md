@@ -45,9 +45,10 @@ NEXT_PUBLIC_SITE_URL=https://www.auraliqia.com
 
 # Contacto visible en la landing
 NEXT_PUBLIC_CONTACT_EMAIL=contacto@tuempresa.com
-NEXT_PUBLIC_CONTACT_PHONE=+52 55 1234 5678
-NEXT_PUBLIC_WHATSAPP_NUMBER=5215512345678
-NEXT_PUBLIC_WHATSAPP_MESSAGE="Hola, quiero automatizar mi PyME con IA."
+NEXT_PUBLIC_CONTACT_PHONE=+52 220 625 1023
+NEXT_PUBLIC_WHATSAPP_NUMBER=522206251023
+NEXT_PUBLIC_WHATSAPP_MESSAGE="Hola AuraLiqIA, quiero información sobre sus servicios."
+NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/auraliqia/?utm_source=ig_web_button_share_sheet
 
 # Demo agendada (opcional)
 NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/tuempresa/demo
@@ -65,3 +66,10 @@ RESEND_TO_EMAIL=contacto@tuempresa.com
 
 Si no configuras `NEXT_PUBLIC_CALENDLY_URL`, los botones de demo abrirán WhatsApp cuando exista `NEXT_PUBLIC_WHATSAPP_NUMBER`.
 Si no configuras Turnstile, el formulario seguirá funcionando sin verificación adicional.
+
+## Verificación rápida
+
+1. Ejecuta `npm run dev`.
+2. Abre `http://localhost:3000/#contacto`.
+3. Haz clic en los accesos de WhatsApp e Instagram y confirma que abren los enlaces correctos en nuevas pestañas/ventanas.
+4. Envía el formulario y revisa el correo configurado en `RESEND_TO_EMAIL`.
