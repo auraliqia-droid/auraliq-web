@@ -897,31 +897,8 @@ export function LandingPage() {
             ))}
           </div>
           <div className="bg-white dark:bg-[#1e1a3a] rounded-2xl shadow-xl overflow-hidden border border-border">
-            <div className="grid md:grid-cols-2">
-              <div className="bg-primary p-8 md:p-12 text-white flex flex-col justify-between relative overflow-hidden">
-                <div className="relative z-10">
-                  <h3 className="text-2xl font-bold mb-6">Información de Contacto</h3>
-                  <p className="text-white/80 mb-8 leading-relaxed">
-                    Cuéntanos sobre tu negocio y te compartiremos un plan de automatización con impacto en ingresos y productividad.
-                  </p>
-                  {contactDetails.length ? (
-                    <div className="space-y-6">
-                      {contactDetails.map((detail) => (
-                        <a key={detail.label} href={detail.href} className="flex items-center gap-4 text-sm font-medium hover:text-white/80">
-                          <span className="material-symbols-outlined">{detail.icon}</span>
-                          <span>{detail.label}</span>
-                        </a>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-sm text-white/80">Completa el formulario y nuestro equipo te responderá en menos de 24 horas.</p>
-                  )}
-                </div>
-                <div className="absolute -bottom-10 -right-10 size-40 bg-white/10 rounded-full blur-3xl" />
-              </div>
-
-              <div className="p-8 md:p-12">
-                <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+            <div className="p-8 md:p-12">
+              <form className="space-y-5" onSubmit={handleSubmit} noValidate>
                   <div className="space-y-2">
                     <label className="text-foreground text-sm font-semibold" htmlFor="fullName">Nombre Completo</label>
                     <input
@@ -1047,8 +1024,7 @@ export function LandingPage() {
                       Tu información está protegida bajo nuestras políticas de privacidad.
                     </p>
                   </div>
-                </form>
-              </div>
+              </form>
             </div>
           </div>
         </div>
