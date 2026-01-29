@@ -37,7 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Variables de entorno
 
-Crea un archivo `.env.local` con las siguientes variables para habilitar los flujos de demo, contacto y seguridad:
+Crea un archivo `.env.local` con las siguientes variables para habilitar los flujos de demo y contacto directo:
 
 ```bash
 # URL pública del sitio (SEO y validación de origen)
@@ -47,22 +47,19 @@ NEXT_PUBLIC_SITE_URL=https://www.auraliqia.com
 NEXT_PUBLIC_CONTACT_EMAIL=contacto@tuempresa.com
 NEXT_PUBLIC_CONTACT_PHONE=+52 220 625 1023
 NEXT_PUBLIC_WHATSAPP_NUMBER=522206251023
-NEXT_PUBLIC_WHATSAPP_MESSAGE="Hola AuraLiqIA, quiero información sobre sus paquetes."
+NEXT_PUBLIC_WHATSAPP_MESSAGE="Hola AuraLiqIA, quiero información sobre sus servicios."
 NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/auraliqia/?utm_source=ig_web_button_share_sheet
 
 # Demo agendada (opcional)
 NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/tuempresa/demo
 
-# Turnstile (anti-spam opcional)
-NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_turnstile_site_key
-TURNSTILE_SECRET_KEY=your_turnstile_secret_key
-
-# Resend (envío de correos del formulario)
-RESEND_API_KEY=your_resend_api_key
-RESEND_FROM_EMAIL="AuraLiqIA <no-reply@tuempresa.com>"
-RESEND_TO_EMAIL=auraliqia@gmail.com
-
 ```
 
 Si no configuras `NEXT_PUBLIC_CALENDLY_URL`, los botones de demo abrirán WhatsApp cuando exista `NEXT_PUBLIC_WHATSAPP_NUMBER`.
-Si no configuras Turnstile, el formulario seguirá funcionando sin verificación adicional.
+La sección de contacto usa enlaces directos a WhatsApp e Instagram; no se requieren llaves de email para funcionar.
+
+## Verificación rápida
+
+1. Ejecuta `npm run dev`.
+2. Abre `http://localhost:3000/#contacto`.
+3. Haz clic en los accesos de WhatsApp e Instagram y confirma que abren los enlaces correctos en nuevas pestañas/ventanas.
