@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { heroImageDataUri } from "@/data/heroImage";
 
 declare global {
   interface Window {
@@ -20,7 +21,7 @@ const instagramUrl =
 const whatsappIcon = "/assets/whatsapp.svg";
 const instagramIcon = "/assets/instagram.svg";
 
-const heroImage = "/hero-auraliq-nuevo.webp";
+const heroImage = heroImageDataUri;
 
 const services = [
   {
@@ -355,10 +356,11 @@ export function LandingPage() {
               <div className="relative z-10 w-full aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 to-purple-600/20 border border-white/20">
                 <Image
                   src={heroImage}
-                  alt="Robot de AuraLiqIA"
+                  alt="Ilustración de AuraLiqIA"
                   fill
                   className="object-cover"
                   sizes="(min-width: 1024px) 50vw, 100vw"
+                  unoptimized
                   priority
                 />
               </div>
