@@ -79,7 +79,6 @@ const pricingPlans = [
     id: "auraweb",
     name: "AuraWeb",
     description: "Lanza una web profesional que vende por ti, con soporte continuo y presencia impecable en todos los dispositivos.",
-    initialPrice: "$5,000 MXN",
     monthlyPrice: "$1,000 MXN",
     bullets: [
       "Administración integral de tu sitio.",
@@ -92,7 +91,6 @@ const pricingPlans = [
     id: "aurabot-ia",
     name: "AuraBot IA",
     description: "Atiende leads 24/7 con un agente conversacional que califica prospectos y conecta con tu CRM al instante.",
-    initialPrice: "$12,000 MXN",
     monthlyPrice: "$3,000 MXN",
     bullets: [
       "Agente conversacional especializado en tu negocio.",
@@ -105,7 +103,6 @@ const pricingPlans = [
     id: "aurasuite",
     name: "AuraSuite",
     description: "Integra sitio web y automatización IA para maximizar conversiones y proyectar un ecosistema digital premium.",
-    initialPrice: "$15,000 MXN",
     monthlyPrice: "$3,500 MXN",
     featured: true,
     bullets: [
@@ -608,15 +605,9 @@ export function LandingPage() {
                   <p className="text-sm font-semibold text-primary uppercase tracking-wider mt-3">Plan</p>
                   <h3 className="text-2xl font-extrabold text-foreground mt-2">{plan.name}</h3>
                   <p className="text-sm text-muted-foreground mt-2">{plan.description}</p>
-                  <div className="mt-4 grid gap-2">
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Pago inicial</p>
-                      <p className="text-lg font-semibold text-foreground">{plan.initialPrice}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Mensualidad</p>
-                      <p className="text-lg font-semibold text-foreground">{plan.monthlyPrice}</p>
-                    </div>
+                  <div className="mt-4">
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Mensualidad</p>
+                    <p className="text-lg font-semibold text-foreground">{plan.monthlyPrice}</p>
                   </div>
                 </div>
                 <ul className="space-y-3 text-sm text-muted-foreground">
