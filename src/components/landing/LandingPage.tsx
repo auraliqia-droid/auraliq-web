@@ -106,7 +106,7 @@ const pricingPlans = [
     name: "AuraSuite",
     description: "Integra sitio web y automatización IA para maximizar conversiones y proyectar un ecosistema digital premium.",
     initialPrice: "$15,000 MXN",
-    monthlyPrice: "$3,000 MXN",
+    monthlyPrice: "$3,500 MXN",
     featured: true,
     bullets: [
       "Web profesional + IA en un solo ecosistema.",
