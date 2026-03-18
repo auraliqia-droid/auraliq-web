@@ -41,19 +41,21 @@ export function Testimonials() {
   const visible = testimonials[index];
 
   return (
-    <section className="py-14 bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4">
+    <section className="relative py-14 bg-primary text-primary-foreground overflow-hidden">
+      {/* Marca de agua de fondo */}
+      <div className="absolute inset-0 pointer-events-none select-none">
+        <Image
+          src="/fondo-opaco.jpg"
+          alt=""
+          fill
+          className="object-cover opacity-10"
+          aria-hidden="true"
+        />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
           <div className="space-y-6">
-            <div data-animate="fade-left" className="rounded-2xl overflow-hidden shadow-lg hidden lg:block">
-              <Image
-                src="/fondo-opaco.jpg"
-                alt="Cliente satisfecho usando Auraliq IA"
-                width={600}
-                height={400}
-                className="w-full h-full object-cover"
-              />
-            </div>
             <h2 data-animate="fade-up" className="text-3xl md:text-4xl font-semibold">Testimonios</h2>
             <p className="text-primary-foreground/80 text-lg">
               Resultados comprobados en equipos que automatizan ventas y soporte.
@@ -99,3 +101,4 @@ export function Testimonials() {
     </section>
   );
 }
+
