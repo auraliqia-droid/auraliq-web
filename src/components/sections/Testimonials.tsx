@@ -48,7 +48,7 @@ export function Testimonials() {
           src="/fondo-opaco.jpg"
           alt=""
           fill
-          className="object-cover opacity-10"
+          className="object-contain opacity-10"
           aria-hidden="true"
         />
       </div>
