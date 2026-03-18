@@ -53,7 +53,7 @@ export function Hero() {
           </div>
 
           <div data-hero="visual" className="relative hidden lg:flex items-center justify-center">
-            <MascotVisual className="w-full max-w-2xl" />
+            <MascotVisual className="w-full max-w-4xl scale-125 origin-center" />
           </div>
         </div>
       </div>
