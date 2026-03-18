@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export function SocialProof() {
   return (
     <section className="py-14 bg-[radial-gradient(circle_at_left,_rgba(15,46,58,0.08),_transparent_60%)]">
@@ -13,6 +15,15 @@ export function SocialProof() {
             <p data-animate="fade-up" className="text-muted-foreground leading-relaxed">
               Los equipos reducen tiempos de respuesta, automatizan seguimiento y mantienen visibilidad completa en un solo panel.
             </p>
+            <div data-animate="fade-up" className="mt-6 rounded-2xl overflow-hidden border border-border/70 shadow-lg">
+              <Image
+                src="/bienvenido.jpg"
+                alt="Bienvenido a la era de la automatización"
+                width={800}
+                height={400}
+                className="w-full h-auto object-cover"
+              />
+            </div>
           </div>
 
           <div data-animate-group="stagger" className="grid grid-cols-2 gap-4">

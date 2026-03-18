@@ -12,7 +12,7 @@ export function BookingSection() {
 
   const embedUrl = useMemo(() => {
     const hasQuery = calLink.includes("?");
-    const embedParams = "embed=inline&layout=month_view";
+    const embedParams = "embed=inline&layout=month_view&theme=light";
     return `${calLink}${hasQuery ? "&" : "?"}${embedParams}`;
   }, [calLink]);
 
@@ -45,13 +45,19 @@ export function BookingSection() {
 
           <Card data-animate="fade-right" className="border-border/70 bg-card/90 shadow-2xl rounded-[32px]">
             <CardContent className="p-4">
-              <div className="w-full h-[660px] bg-background border border-border/70 rounded-[24px] overflow-hidden">
+              <div className="relative w-full min-h-[600px] bg-background border border-border/70 rounded-[24px] overflow-hidden">
                 <iframe
                   src={embedUrl}
-                  className="w-full h-full"
+                  className="absolute inset-0 w-full h-full border-0"
+                  style={{ minHeight: "600px" }}
                   allow="microphone; camera; autoplay; clipboard-read; clipboard-write"
+                  loading="lazy"
                   title="Calendario de demostración"
                 />
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground pointer-events-none">
+                  <span className="material-symbols-outlined text-4xl mb-2">calendar_month</span>
+                  <p className="text-sm">Cargando calendario...</p>
+                </div>
               </div>
             </CardContent>
           </Card>

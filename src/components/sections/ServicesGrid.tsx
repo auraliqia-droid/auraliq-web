@@ -2,6 +2,7 @@
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Bot, CalendarCheck, Workflow, Check } from "lucide-react";
+import Image from "next/image";
 
 const services = [
   {
@@ -63,6 +64,16 @@ export function ServicesGrid() {
               </div>
             ))}
           </div>
+        </div>
+
+        <div data-animate="scale-up" className="mt-10 rounded-2xl overflow-hidden border border-border/70 shadow-xl">
+          <Image
+            src="/celular-demo.jpg"
+            alt="Demo de agente en WhatsApp e iMessage"
+            width={1200}
+            height={600}
+            className="w-full h-auto object-cover"
+          />
         </div>
       </div>
     </section>

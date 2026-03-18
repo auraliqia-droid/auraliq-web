@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import Image from "next/image";
 
 const testimonials = [
   {
@@ -44,6 +45,15 @@ export function Testimonials() {
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
           <div className="space-y-6">
+            <div data-animate="fade-left" className="rounded-2xl overflow-hidden shadow-lg hidden lg:block">
+              <Image
+                src="/fondo-opaco.jpg"
+                alt="Cliente satisfecho usando Auraliq IA"
+                width={600}
+                height={400}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <h2 data-animate="fade-up" className="text-3xl md:text-4xl font-semibold">Testimonios</h2>
             <p className="text-primary-foreground/80 text-lg">
               Resultados comprobados en equipos que automatizan ventas y soporte.
