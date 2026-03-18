@@ -35,6 +35,15 @@ export function ServicesGrid() {
             <p data-animate="fade-up" className="text-lg text-muted-foreground">
               Tres bloques claros para vender y dar soporte sin agregar complejidad.
             </p>
+            <div data-animate="fade-up" className="rounded-2xl overflow-hidden border border-border/70 shadow-lg">
+              <Image
+                src="/celular-demo.jpg"
+                alt="Demo de agente en WhatsApp e iMessage"
+                width={600}
+                height={400}
+                className="w-full h-auto object-cover"
+              />
+            </div>
           </div>
 
           <div data-animate-group="stagger" className="space-y-6">
@@ -66,15 +75,6 @@ export function ServicesGrid() {
           </div>
         </div>
 
-        <div data-animate="scale-up" className="mt-10 rounded-2xl overflow-hidden border border-border/70 shadow-xl">
-          <Image
-            src="/celular-demo.jpg"
-            alt="Demo de agente en WhatsApp e iMessage"
-            width={1200}
-            height={600}
-            className="w-full h-auto object-cover"
-          />
-        </div>
       </div>
     </section>
   );
