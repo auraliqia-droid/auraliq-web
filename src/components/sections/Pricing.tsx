@@ -52,7 +52,7 @@ const plans = [
   },
 ];
 
-const WA_LINK = "https://wa.me/521XXXXXXXXXX?text=Hola%2C%20quiero%20cotizar%20un%20plan%20de%20Auraliq";
+const WA_LINK = "https://wa.me/5212206251023?text=Hola%2C%20quiero%20cotizar%20un%20plan%20de%20Auraliq";
 
 export function Pricing() {
   return (
