@@ -11,6 +11,7 @@ import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Company } from "@/components/sections/Company";
 import { FAQ } from "@/components/sections/FAQ";
+import { Pricing } from "@/components/sections/Pricing";
 import { BookingSection } from "@/components/sections/BookingSection";
 import { Footer } from "@/components/layout/Footer";
 
@@ -43,6 +44,9 @@ export function LandingPage() {
       <div className="glow-divider max-w-7xl mx-auto" />
 
       <FAQ />
+      <div className="glow-divider max-w-7xl mx-auto" />
+
+      <Pricing />
       <div className="glow-divider max-w-7xl mx-auto" />
 
       <BookingSection />
