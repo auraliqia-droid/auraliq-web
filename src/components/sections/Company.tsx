@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 
@@ -25,18 +27,18 @@ const team: TeamMember[] = [
 
 export function Company() {
   return (
-    <section id="empresa" className="py-24 scroll-mt-24 bg-[linear-gradient(180deg,rgba(15,46,58,0.04),transparent_65%)]">
+    <section id="empresa" className="py-14 scroll-mt-24 bg-[linear-gradient(180deg,rgba(15,46,58,0.04),transparent_65%)]">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl space-y-4">
-          <h2 className="text-3xl md:text-4xl font-semibold">Equipo</h2>
-          <p className="text-lg text-muted-foreground">
+          <h2 data-animate="fade-up" className="text-3xl md:text-4xl font-semibold">Equipo</h2>
+          <p data-animate="fade-up" className="text-lg text-muted-foreground">
             Ingenieros y operadores enfocados en lanzar agentes conversacionales sin burocracia ni meses de espera.
           </p>
         </div>
 
-        <div className="mt-12 grid md:grid-cols-2 gap-6">
+        <div data-animate-group="stagger" className="mt-12 grid md:grid-cols-2 gap-6">
           {team.map((member) => (
-            <Card key={member.name} className="border-border/70 bg-card/90 shadow-xl rounded-[28px]">
+            <Card key={member.name} className="stagger-item border-border/70 bg-card/90 shadow-xl rounded-[28px]">
               <CardContent className="p-6 flex flex-col sm:flex-row gap-6">
                 <div className="w-32 h-32 rounded-3xl bg-muted/60 overflow-hidden flex items-center justify-center text-muted-foreground font-semibold border border-border/70">
                   {member.avatar ? (

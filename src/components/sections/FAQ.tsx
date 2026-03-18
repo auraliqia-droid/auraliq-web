@@ -1,3 +1,5 @@
+"use client";
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const faqs = [
@@ -23,15 +25,15 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-24 scroll-mt-24 bg-[linear-gradient(180deg,rgba(15,46,58,0.04),transparent_60%)]">
+    <section id="faq" className="py-14 scroll-mt-24 bg-[linear-gradient(180deg,rgba(15,46,58,0.04),transparent_60%)]">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
           <div className="space-y-4">
-            <h2 className="text-3xl font-semibold">Preguntas Frecuentes</h2>
-            <p className="text-muted-foreground">Respuestas rápidas sobre el nuevo flujo de demo y las integraciones.</p>
+            <h2 data-animate="fade-up" className="text-3xl font-semibold">Preguntas Frecuentes</h2>
+            <p data-animate="fade-up" className="text-muted-foreground">Respuestas rápidas sobre el nuevo flujo de demo y las integraciones.</p>
           </div>
 
-          <div className="rounded-[28px] border border-border/70 bg-card/90 p-6 shadow-xl">
+          <div data-animate="fade-up" className="rounded-[28px] border border-border/70 bg-card/90 p-6 shadow-xl">
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, index) => (
                 <AccordionItem key={index} value={`item-${index}`} className="border-border/60">

@@ -125,3 +125,21 @@
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
+
+/* Glow divider for section separators */
+.glow-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(75, 43, 238, 0.2), transparent);
+}
+
+/* Scroll progress bar */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  z-index: 200;
+  background: linear-gradient(90deg, #4B2BEE, #6A57F3);
+  transform-origin: left;
+  will-change: transform;
+}

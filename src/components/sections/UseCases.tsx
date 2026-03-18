@@ -2,7 +2,6 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { LucideIcon, MessagesSquare, Workflow, ShieldCheck } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
 
 const capabilities = [
   {
@@ -29,29 +28,21 @@ const capabilities = [
 ];
 
 export function UseCases() {
-  const reduceMotion = useReducedMotion();
-
   return (
-    <section id="casos" className="py-24 scroll-mt-24">
+    <section id="casos" className="py-14 scroll-mt-24">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl space-y-4">
-          <h2 className="text-3xl md:text-4xl font-semibold">Lo que verás funcionando en vivo</h2>
-          <p className="text-lg text-muted-foreground">
+          <h2 data-animate="fade-up" className="text-3xl md:text-4xl font-semibold">Lo que verás funcionando en vivo</h2>
+          <p data-animate="fade-up" className="text-lg text-muted-foreground">
             Conversaciones guiadas, reglas claras y reportes listos para compartir con tu equipo.
           </p>
         </div>
 
-        <div className="mt-12 space-y-6">
-          {capabilities.map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: reduceMotion ? 0 : 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
-            >
+        <div data-animate-group="stagger" className="mt-12 space-y-6">
+          {capabilities.map((item) => (
+            <div key={item.title} className="stagger-item">
               <CapabilityCard {...item} />
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

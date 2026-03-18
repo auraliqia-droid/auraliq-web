@@ -17,10 +17,10 @@ export function BookingSection() {
   }, [calLink]);
 
   return (
-    <section id="booking" className="py-24 scroll-mt-24 bg-[radial-gradient(circle_at_bottom,_rgba(217,140,63,0.18),_transparent_55%)]">
+    <section id="booking" className="py-14 scroll-mt-24 bg-[radial-gradient(circle_at_bottom,_rgba(217,140,63,0.18),_transparent_55%)]">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-10 items-start">
-          <div className="space-y-6">
+          <div data-animate="fade-left" className="space-y-6">
             <h2 className="text-3xl md:text-4xl font-semibold">Agenda tu demo gratuita</h2>
             <p className="text-lg text-muted-foreground">
               Abre el calendario, elige tu horario y listo. Sin formularios intermedios. Mostramos la zona horaria de Ciudad de México.
@@ -43,7 +43,7 @@ export function BookingSection() {
             </div>
           </div>
 
-          <Card className="border-border/70 bg-card/90 shadow-2xl rounded-[32px]">
+          <Card data-animate="fade-right" className="border-border/70 bg-card/90 shadow-2xl rounded-[32px]">
             <CardContent className="p-4">
               <div className="w-full h-[660px] bg-background border border-border/70 rounded-[24px] overflow-hidden">
                 <iframe
