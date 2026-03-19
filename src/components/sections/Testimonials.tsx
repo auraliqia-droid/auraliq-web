@@ -41,20 +41,21 @@ export function Testimonials() {
   const visible = testimonials[index];
 
   return (
-    <section className="py-14 bg-primary text-primary-foreground overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="relative py-14 bg-primary text-primary-foreground overflow-hidden">
+      {/* Marca de agua mitad izquierda */}
+      <div className="absolute left-0 top-0 bottom-0 w-1/2 pointer-events-none select-none">
+        <Image
+          src="/fondo-opaco.jpg"
+          alt=""
+          fill
+          className="object-cover opacity-10"
+          aria-hidden="true"
+        />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
-          <div className="relative space-y-6">
-            {/* Marca de agua columna izquierda */}
-            <div className="absolute inset-0 pointer-events-none select-none">
-              <Image
-                src="/fondo-opaco.jpg"
-                alt=""
-                fill
-                className="object-contain opacity-10"
-                aria-hidden="true"
-              />
-            </div>
+          <div className="space-y-6">
             <h2 data-animate="fade-up" className="text-3xl md:text-4xl font-semibold">Testimonios</h2>
             <p className="text-primary-foreground/80 text-lg">
               Resultados comprobados en equipos que automatizan ventas y soporte.
