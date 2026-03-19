@@ -13,7 +13,7 @@ export function Hero() {
       <div data-hero-parallax="120" className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
       <div data-hero-parallax="80" className="absolute bottom-0 left-1/4 w-[350px] h-[350px] bg-secondary/10 rounded-full blur-[90px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 relative z-10 pt-28 pb-16">
+      <div className="container mx-auto px-4 relative z-10 pt-20 sm:pt-28 pb-12 sm:pb-16">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-left">
             <div data-hero="badge" className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full w-fit">

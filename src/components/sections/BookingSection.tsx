@@ -45,11 +45,11 @@ export function BookingSection() {
 
           <Card data-animate="fade-right" className="border-border/70 bg-card/90 shadow-2xl rounded-[32px]">
             <CardContent className="p-4">
-              <div className="relative w-full min-h-[600px] bg-background border border-border/70 rounded-[24px] overflow-hidden">
+              <div className="relative w-full min-h-[400px] sm:min-h-[520px] lg:min-h-[600px] bg-background border border-border/70 rounded-[24px] overflow-hidden">
                 <iframe
                   src={embedUrl}
                   className="absolute inset-0 w-full h-full border-0"
-                  style={{ minHeight: "600px" }}
+                  style={{ minHeight: "inherit" }}
                   allow="microphone; camera; autoplay; clipboard-read; clipboard-write"
                   loading="lazy"
                   title="Calendario de demostración"

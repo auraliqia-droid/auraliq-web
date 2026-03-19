@@ -35,7 +35,7 @@ export function BenefitsGrid() {
           {benefits.map((benefit) => (
             <div key={benefit.title} className="stagger-item">
               <Card className="h-full border-border/70 bg-card/90 shadow-lg backdrop-blur transition-transform hover:-translate-y-1 hover:shadow-xl">
-                <CardContent className="p-8 flex flex-col gap-4">
+                <CardContent className="p-5 sm:p-8 flex flex-col gap-4">
                   <div className="flex items-center gap-4">
                     <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
                       <benefit.icon className="w-6 h-6" />

@@ -71,7 +71,7 @@ export function Testimonials() {
           </div>
 
           <Card data-animate="fade-up" className="bg-primary/80 border-primary-foreground/20 rounded-[32px] shadow-2xl">
-            <CardContent className="p-8 space-y-6">
+            <CardContent className="p-5 sm:p-8 space-y-6">
               <div className="w-12 h-12 rounded-2xl bg-primary-foreground/10 text-primary-foreground flex items-center justify-center">
                 <Quote className="w-6 h-6" />
               </div>

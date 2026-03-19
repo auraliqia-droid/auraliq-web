@@ -9,11 +9,13 @@ export function useScrollAnimations() {
     if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth < 768;
+
       // Fade up
       gsap.utils.toArray<HTMLElement>("[data-animate='fade-up']").forEach((el) => {
         const delay = parseFloat(el.dataset.delay || "0");
         gsap.from(el, {
-          y: 50, opacity: 0, duration: 0.8, delay, ease: "power3.out",
+          y: isMobile ? 25 : 50, opacity: 0, duration: 0.8, delay, ease: "power3.out",
           scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
         });
       });
@@ -21,7 +23,7 @@ export function useScrollAnimations() {
       // Fade left
       gsap.utils.toArray<HTMLElement>("[data-animate='fade-left']").forEach((el) => {
         gsap.from(el, {
-          x: -50, opacity: 0, duration: 0.8, ease: "power3.out",
+          x: isMobile ? -25 : -50, opacity: 0, duration: 0.8, ease: "power3.out",
           scrollTrigger: { trigger: el, start: "top 85%" },
         });
       });
@@ -29,7 +31,7 @@ export function useScrollAnimations() {
       // Fade right
       gsap.utils.toArray<HTMLElement>("[data-animate='fade-right']").forEach((el) => {
         gsap.from(el, {
-          x: 50, opacity: 0, duration: 0.8, ease: "power3.out",
+          x: isMobile ? 25 : 50, opacity: 0, duration: 0.8, ease: "power3.out",
           scrollTrigger: { trigger: el, start: "top 85%" },
         });
       });
@@ -46,7 +48,7 @@ export function useScrollAnimations() {
       gsap.utils.toArray<HTMLElement>("[data-animate-group='stagger']").forEach((group) => {
         const items = group.querySelectorAll(".stagger-item");
         gsap.from(items, {
-          y: 40, opacity: 0, duration: 0.7, stagger: 0.1, ease: "power3.out",
+          y: isMobile ? 20 : 40, opacity: 0, duration: 0.7, stagger: 0.1, ease: "power3.out",
           scrollTrigger: { trigger: group, start: "top 85%" },
         });
       });
@@ -67,14 +69,16 @@ export function useScrollAnimations() {
         });
       });
 
-      // Parallax
-      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
-        const speed = parseFloat(el.dataset.speed || "-50");
-        gsap.to(el, {
-          y: speed, ease: "none",
-          scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 1 },
+      // Parallax (desktop only)
+      if (window.innerWidth >= 1024) {
+        gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
+          const speed = parseFloat(el.dataset.speed || "-50");
+          gsap.to(el, {
+            y: speed, ease: "none",
+            scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 1 },
+          });
         });
-      });
+      }
 
       // Glow dividers
       gsap.utils.toArray<HTMLElement>(".glow-divider").forEach((line) => {
