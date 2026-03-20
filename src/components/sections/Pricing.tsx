@@ -15,7 +15,6 @@ const plans = [
     bullets: [
       "Administración integral de tu sitio.",
       "Dominio, hosting y mantenimiento técnico incluidos.",
-      "Derecho a 5 modificaciones mensuales de contenido.",
       "Soporte continuo para mantener tu web siempre actualizada.",
     ],
     highlight: false,
