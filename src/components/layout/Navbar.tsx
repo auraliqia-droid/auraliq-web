@@ -46,7 +46,7 @@ export function Navbar() {
         <div className="flex items-center gap-4">
           {/* Social shortcuts */}
           <a
-            href="https://wa.me/5212206251023"
+            href="https://wa.me/529221530320"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
