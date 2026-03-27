@@ -10,6 +10,7 @@ import { BenefitsGrid } from "@/components/sections/BenefitsGrid";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Company } from "@/components/sections/Company";
+import { QuienesSomos } from "@/components/sections/QuienesSomos";
 import { FAQ } from "@/components/sections/FAQ";
 import { Pricing } from "@/components/sections/Pricing";
 import { BookingSection } from "@/components/sections/BookingSection";
@@ -41,6 +42,9 @@ export function LandingPage() {
       <div className="glow-divider max-w-7xl mx-auto" />
 
       <Company />
+      <div className="glow-divider max-w-7xl mx-auto" />
+
+      <QuienesSomos />
       <div className="glow-divider max-w-7xl mx-auto" />
 
       <FAQ />
